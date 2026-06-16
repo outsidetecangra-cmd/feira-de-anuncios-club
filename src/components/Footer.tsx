@@ -1,6 +1,10 @@
 import { MessageCircle, ShieldCheck, Store } from "lucide-react";
+import { SITE_WHATSAPP_LABEL, SITE_WHATSAPP_PHONE } from "../utils/contact";
+import { whatsappLink } from "../utils/whatsapp";
 
 export function Footer() {
+  const message = "Olá, quero falar com a Feira de Anúncios Club.";
+
   return (
     <footer className="mt-16 bg-ink text-white">
       <div className="container-page grid gap-8 py-10 md:grid-cols-[1.2fr_1fr_1fr]">
@@ -19,7 +23,14 @@ export function Footer() {
         <div className="text-sm text-slate-300">
           <p className="font-semibold text-white">Domínio oficial</p>
           <p className="mt-2">feiradeanuncios.club</p>
-          <p className="mt-4">MVP preparado para Cloudflare Pages.</p>
+          <a
+            className="mt-4 inline-flex items-center gap-2 font-bold text-sale hover:text-white"
+            href={whatsappLink(SITE_WHATSAPP_PHONE, message)}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <MessageCircle size={18} /> WhatsApp {SITE_WHATSAPP_LABEL}
+          </a>
         </div>
       </div>
     </footer>

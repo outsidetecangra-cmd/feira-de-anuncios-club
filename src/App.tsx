@@ -10,7 +10,7 @@ import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import { Stores } from "./pages/Stores";
 import type { Ad, ClubLead } from "./types";
-import { addAd, addClubLead, getAds, getClubLeads, saveAds } from "./utils/storage";
+import { getAds, getClubLeads, saveAds } from "./utils/storage";
 
 function useHashRoute() {
   const [hash, setHash] = useState(window.location.hash || "#/");
@@ -27,21 +27,12 @@ function useHashRoute() {
 export default function App() {
   const route = useHashRoute();
   const [ads, setAds] = useState<Ad[]>(() => getAds());
-  const [leads, setLeads] = useState<ClubLead[]>(() => getClubLeads());
+  const [leads] = useState<ClubLead[]>(() => getClubLeads());
   const [isLogged, setIsLogged] = useState(localStorage.getItem("feira_admin") === "true");
 
   function updateAds(nextAds: Ad[]) {
     setAds(nextAds);
     saveAds(nextAds);
-  }
-
-  function createAd(ad: Ad, clubLead?: { name: string; whatsapp: string }) {
-    addAd(ad);
-    setAds(getAds());
-    if (clubLead) {
-      addClubLead({ id: crypto.randomUUID(), ...clubLead, source: "Cadastro de anúncio", createdAt: new Date().toISOString() });
-      setLeads(getClubLeads());
-    }
   }
 
   function logout() {
@@ -58,7 +49,7 @@ export default function App() {
   if (adMatch) page = <AdDetails ads={ads} id={decodeURIComponent(adMatch[1])} />;
   if (path === "/stores") page = <Stores ads={ads} />;
   if (path === "/club") page = <Club />;
-  if (path === "/create") page = <CreateAd onCreate={createAd} />;
+  if (path === "/create") page = <CreateAd />;
   if (path === "/login") page = <Login onLogin={() => setIsLogged(true)} />;
   if (path === "/admin") page = <Admin ads={ads} leads={leads} isLogged={isLogged} onUpdate={updateAds} onLogout={logout} />;
 

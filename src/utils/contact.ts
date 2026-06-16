@@ -1,0 +1,2 @@
+export const SITE_WHATSAPP_PHONE = "557598676127";
+export const SITE_WHATSAPP_LABEL = "(75) 9867-6127";

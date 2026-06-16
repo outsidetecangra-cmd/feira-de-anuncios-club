@@ -2,41 +2,36 @@ import { Send } from "lucide-react";
 import type { FormEvent } from "react";
 import { useState } from "react";
 import { categories } from "../data/categories";
-import type { Ad } from "../types";
+import { SITE_WHATSAPP_PHONE } from "../utils/contact";
+import { whatsappLink } from "../utils/whatsapp";
 
-interface CreateAdProps {
-  onCreate: (ad: Ad, clubLead?: { name: string; whatsapp: string }) => void;
-}
-
-export function CreateAd({ onCreate }: CreateAdProps) {
-  const [createdId, setCreatedId] = useState<string | null>(null);
+export function CreateAd() {
+  const [sent, setSent] = useState(false);
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    const id = crypto.randomUUID();
     const title = String(form.get("title"));
     const advertiser = String(form.get("advertiser"));
     const whatsapp = String(form.get("whatsapp"));
     const joinClub = form.get("joinClub") === "on";
-    const ad: Ad = {
-      id,
-      title,
-      description: String(form.get("description")),
-      price: String(form.get("price")),
-      category: String(form.get("category")),
-      image: String(form.get("image")),
-      advertiser,
-      whatsapp,
-      location: String(form.get("location")),
-      type: String(form.get("type")) as Ad["type"],
-      status: "ativo",
-      badges: joinClub ? ["associado"] : [],
-      createdAt: new Date().toISOString(),
-    };
+    const message = [
+      "Olá, quero anunciar na Feira de Anúncios Club.",
+      "",
+      `Título: ${title}`,
+      `Descrição: ${String(form.get("description"))}`,
+      `Preço: ${String(form.get("price"))}`,
+      `Categoria: ${String(form.get("category"))}`,
+      `Imagem: ${String(form.get("image"))}`,
+      `Anunciante/loja: ${advertiser}`,
+      `WhatsApp do anunciante: ${whatsapp}`,
+      `Bairro/cidade: ${String(form.get("location"))}`,
+      `Tipo: ${String(form.get("type"))}`,
+      `Tem interesse no clube de associados: ${joinClub ? "Sim" : "Não"}`,
+    ].join("\n");
 
-    onCreate(ad, joinClub ? { name: advertiser, whatsapp } : undefined);
-    setCreatedId(id);
+    window.open(whatsappLink(SITE_WHATSAPP_PHONE, message), "_blank", "noopener,noreferrer");
+    setSent(true);
     event.currentTarget.reset();
   }
 
@@ -44,9 +39,9 @@ export function CreateAd({ onCreate }: CreateAdProps) {
     <main className="container-page py-10">
       <div className="mx-auto max-w-4xl">
         <p className="text-sm font-black uppercase text-local">Anunciar</p>
-        <h1 className="mt-2 text-4xl font-black text-ink">Cadastrar anúncio</h1>
+        <h1 className="mt-2 text-4xl font-black text-ink">Solicitar anúncio</h1>
         <p className="mt-3 max-w-2xl leading-7 text-slate-600">
-          Publique produtos, serviços, imóveis, veículos e oportunidades da sua região. O anúncio aparece imediatamente na listagem do MVP.
+          Preencha os dados do anúncio e envie pelo WhatsApp. Nossa equipe confere as informações antes da publicação.
         </p>
 
         <form onSubmit={submit} className="mt-8 grid gap-4 rounded-lg border border-slate-200 bg-white p-5 shadow-sm md:grid-cols-2">
@@ -69,12 +64,12 @@ export function CreateAd({ onCreate }: CreateAdProps) {
             Desejo participar do clube de associados
           </label>
           <button className="btn-primary md:col-span-2" type="submit">
-            <Send size={18} /> Publicar anúncio
+            <Send size={18} /> Enviar solicitação pelo WhatsApp
           </button>
         </form>
-        {createdId && (
+        {sent && (
           <div className="mt-5 rounded-lg bg-green-50 p-4 text-sm font-semibold text-green-700">
-            Anúncio cadastrado com sucesso. <a className="underline" href={`#/ads/${createdId}`}>Ver anúncio</a>
+            Solicitação preparada. Se o WhatsApp não abrir automaticamente, verifique o bloqueio de pop-ups do navegador.
           </div>
         )}
       </div>

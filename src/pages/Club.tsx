@@ -1,7 +1,8 @@
 import type { FormEvent } from "react";
 import { useState } from "react";
 import { PlanCard } from "../components/PlanCard";
-import { addClubLead } from "../utils/storage";
+import { SITE_WHATSAPP_PHONE } from "../utils/contact";
+import { whatsappLink } from "../utils/whatsapp";
 
 export function Club() {
   const [sent, setSent] = useState(false);
@@ -9,13 +10,14 @@ export function Club() {
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    addClubLead({
-      id: crypto.randomUUID(),
-      name: String(form.get("name")),
-      whatsapp: String(form.get("whatsapp")),
-      source: "Clube de Associados",
-      createdAt: new Date().toISOString(),
-    });
+    const message = [
+      "Olá, quero ser associado da Feira de Anúncios Club.",
+      "",
+      `Nome da loja ou responsável: ${String(form.get("name"))}`,
+      `WhatsApp: ${String(form.get("whatsapp"))}`,
+    ].join("\n");
+
+    window.open(whatsappLink(SITE_WHATSAPP_PHONE, message), "_blank", "noopener,noreferrer");
     setSent(true);
     event.currentTarget.reset();
   }
@@ -40,13 +42,13 @@ export function Club() {
         </div>
         <form onSubmit={submit} className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
           <h2 className="text-2xl font-black text-ink">Quero ser associado</h2>
-          <p className="mt-2 text-sm leading-6 text-slate-600">Deixe seus dados para aparecer no painel admin como interessado.</p>
+          <p className="mt-2 text-sm leading-6 text-slate-600">Deixe seus dados e fale com a equipe pelo WhatsApp.</p>
           <div className="mt-5 grid gap-3">
             <input className="field" name="name" placeholder="Nome da loja ou responsável" required />
             <input className="field" name="whatsapp" placeholder="WhatsApp" required />
             <button className="btn-primary" type="submit">Quero ser associado</button>
           </div>
-          {sent && <p className="mt-4 rounded-md bg-green-50 p-3 text-sm font-semibold text-green-700">Interesse registrado com sucesso.</p>}
+          {sent && <p className="mt-4 rounded-md bg-green-50 p-3 text-sm font-semibold text-green-700">Solicitação preparada no WhatsApp.</p>}
         </form>
       </section>
     </main>
