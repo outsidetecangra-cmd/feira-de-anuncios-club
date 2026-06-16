@@ -1,4 +1,5 @@
-import { Megaphone, ShieldCheck, Store, TrendingUp } from "lucide-react";
+import { ChevronLeft, ChevronRight, Megaphone, ShieldCheck, Store, TrendingUp } from "lucide-react";
+import { useEffect, useState } from "react";
 import { AdCard } from "../components/AdCard";
 import { CategoryCard } from "../components/CategoryCard";
 import { PlanCard } from "../components/PlanCard";
@@ -8,12 +9,86 @@ import { categories } from "../data/categories";
 import { mockStores } from "../data/mockStores";
 import type { Ad } from "../types";
 
+const carouselImages = ["/carrossel/1.png", "/carrossel/2.png", "/carrossel/3.png"];
+
 export function Home({ ads }: { ads: Ad[] }) {
   const activeAds = ads.filter((ad) => ad.status === "ativo");
   const featured = activeAds.filter((ad) => ad.badges.includes("destaque")).slice(0, 4);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setCurrentSlide((index) => (index + 1) % carouselImages.length);
+    }, 4500);
+
+    return () => window.clearInterval(timer);
+  }, []);
+
+  function goToSlide(index: number) {
+    setCurrentSlide(index);
+  }
+
+  function goToPrevious() {
+    setCurrentSlide((index) => (index - 1 + carouselImages.length) % carouselImages.length);
+  }
+
+  function goToNext() {
+    setCurrentSlide((index) => (index + 1) % carouselImages.length);
+  }
 
   return (
     <>
+      <section className="border-b border-slate-200 bg-slate-100">
+        <div className="container-page pb-4 pt-1 sm:pb-6 sm:pt-2">
+          <div className="relative mx-auto max-w-6xl overflow-hidden rounded-2xl bg-white shadow-soft">
+            <div className="relative aspect-[16/9] min-h-[220px] bg-slate-100 sm:min-h-[320px] lg:min-h-[420px]">
+              {carouselImages.map((image, index) => (
+                <img
+                  key={image}
+                  className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-700 ${
+                    index === currentSlide ? "opacity-100" : "opacity-0"
+                  }`}
+                  src={image}
+                  alt={`Destaque ${index + 1} da Feira de Anúncios`}
+                />
+              ))}
+            </div>
+
+            <button
+              className="absolute left-3 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-ink shadow-sm transition hover:bg-white"
+              type="button"
+              aria-label="Imagem anterior"
+              onClick={goToPrevious}
+            >
+              <ChevronLeft size={20} />
+            </button>
+
+            <button
+              className="absolute right-3 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-ink shadow-sm transition hover:bg-white"
+              type="button"
+              aria-label="Próxima imagem"
+              onClick={goToNext}
+            >
+              <ChevronRight size={20} />
+            </button>
+
+            <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-full bg-black/20 px-3 py-2 backdrop-blur-sm">
+              {carouselImages.map((image, index) => (
+                <button
+                  key={image}
+                  className={`h-2.5 w-2.5 rounded-full transition ${
+                    index === currentSlide ? "bg-white" : "bg-white/50"
+                  }`}
+                  type="button"
+                  aria-label={`Ir para imagem ${index + 1}`}
+                  onClick={() => goToSlide(index)}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="bg-ink text-white">
         <div className="container-page grid min-h-[calc(100vh-4rem)] items-center gap-10 py-10 lg:grid-cols-[1.05fr_0.95fr]">
           <div className="max-w-2xl">
@@ -30,11 +105,6 @@ export function Home({ ads }: { ads: Ad[] }) {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a className="btn-primary" href="#/ads"><Megaphone size={20} /> Ver anúncios</a>
               <a className="btn-secondary" href="#/create"><Store size={20} /> Quero anunciar</a>
-            </div>
-            <div className="mt-10 grid grid-cols-3 gap-3 text-center">
-              <div className="rounded-lg bg-white/10 p-4"><strong className="block text-2xl">{activeAds.length}</strong><span className="text-xs text-slate-300">anúncios ativos</span></div>
-              <div className="rounded-lg bg-white/10 p-4"><strong className="block text-2xl">{mockStores.length}</strong><span className="text-xs text-slate-300">lojas</span></div>
-              <div className="rounded-lg bg-white/10 p-4"><strong className="block text-2xl">3</strong><span className="text-xs text-slate-300">planos</span></div>
             </div>
           </div>
           <div className="grid gap-4">

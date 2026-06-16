@@ -18,8 +18,8 @@ export function Header() {
       <div className="container-page flex h-16 items-center justify-between">
         <a href="#/" className="flex items-center gap-3 font-black text-ink" aria-label="Feira de Anúncios Club">
           <img
-            className="h-12 w-auto max-w-[190px] object-contain sm:max-w-[240px]"
-            src="/assets/LOGO-FEIRA.png"
+            className="h-12 w-auto object-contain sm:h-14"
+            src="/assets/logo-vert.png?v=3"
             alt="Feira de Anúncios"
           />
           <span className="sr-only">Feira de Anúncios Club</span>
