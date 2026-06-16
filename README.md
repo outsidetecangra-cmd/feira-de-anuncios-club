@@ -54,9 +54,11 @@ O login é mockado para o MVP. A estrutura pode ser migrada depois para Firebase
 3. Entre em Workers & Pages > Create application > Pages.
 4. Conecte o repositório.
 5. Configure:
-   - Framework preset: `Vite`
+   - Framework preset: `React (Vite)` ou `Vite`
    - Build command: `npm run build`
    - Build output directory: `dist`
+   - Root directory: deixe vazio, usando a raiz do repositório
+   - Node.js: o arquivo `.node-version` fixa `20.19.0`
 6. Salve e publique.
 
 ## Domínio feiradeanuncios.club com Godaddy + Cloudflare
@@ -64,11 +66,12 @@ O login é mockado para o MVP. A estrutura pode ser migrada depois para Firebase
 1. Adicione `feiradeanuncios.club` na Cloudflare.
 2. Copie os nameservers informados pela Cloudflare.
 3. Acesse a Godaddy e altere os nameservers do domínio para os nameservers da Cloudflare.
-4. Aguarde a propagação DNS.
-5. No Cloudflare Pages, abra o projeto publicado.
-6. Vá em Custom domains e adicione `feiradeanuncios.club`.
-7. Confirme a configuração sugerida pela Cloudflare.
-8. Após validação, o Pages passa a servir o site no domínio personalizado.
+4. Atenção: ao trocar nameservers, a zona DNS passa a ser gerenciada na Cloudflare. Confira registros de e-mail antes e depois, se houver e-mail nesse domínio.
+5. Aguarde a propagação DNS. Normalmente é rápido, mas pode levar até 48 horas globalmente.
+6. No Cloudflare Pages, abra o projeto publicado.
+7. Vá em Custom domains e adicione `feiradeanuncios.club`.
+8. Confirme a configuração sugerida pela Cloudflare.
+9. Após validação, o Pages passa a servir o site no domínio personalizado.
 
 ## Próximos passos recomendados
 
