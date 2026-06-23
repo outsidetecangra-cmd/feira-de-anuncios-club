@@ -2,6 +2,17 @@ import type { Store } from "../types";
 
 export const mockStores: Store[] = [
   {
+    id: "instituto-educacional-recriar",
+    name: "Instituto Educacional Recriar",
+    image: "/anuncios/escola/instituto-educacional-recriar.png",
+    imageFit: "contain",
+    description: "Educação Infantil com carinho, aprendizado e diversão todos os dias. Berçário, Maternal e Pré-Escola em ambiente acolhedor e seguro.",
+    category: "Educação Infantil",
+    whatsapp: "551144892319",
+    address: "Rua Dr. Epitacio Pessoa 94, Francisco Morato - SP",
+    isMember: false,
+  },
+  {
     id: "pizzaria-forno-da-praca",
     name: "Pizzaria Forno da Praça",
     image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=900&q=80",

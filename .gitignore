@@ -15,3 +15,7 @@ preview.err
 
 .DS_Store
 Thumbs.db
+.npm-cache/
+contador.txt
+public/assets/_backup-white-bg/
+public/carrossel/instituto-educacional-recriar.png

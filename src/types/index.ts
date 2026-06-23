@@ -7,6 +7,7 @@ export interface Ad {
   category: string;
   price: string;
   image: string;
+  imageFit?: "cover" | "contain";
   advertiser: string;
   whatsapp: string;
   location: string;
@@ -21,6 +22,7 @@ export interface Store {
   id: string;
   name: string;
   image: string;
+  imageFit?: "cover" | "contain";
   description: string;
   category: string;
   whatsapp: string;

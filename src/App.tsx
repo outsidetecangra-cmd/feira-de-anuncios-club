@@ -3,13 +3,14 @@ import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 import { Admin } from "./pages/Admin";
 import { AdDetails } from "./pages/AdDetails";
-import { Ads } from "./pages/Ads";
+import { Categories } from "./pages/Categories";
 import { Club } from "./pages/Club";
 import { CreateAd } from "./pages/CreateAd";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import { Stores } from "./pages/Stores";
 import type { Ad, ClubLead } from "./types";
+import { clearMockAdminSession, readMockAdminSession } from "./utils/mockAdmin";
 import { getAds, getClubLeads, saveAds } from "./utils/storage";
 
 function useHashRoute() {
@@ -28,7 +29,11 @@ export default function App() {
   const route = useHashRoute();
   const [ads, setAds] = useState<Ad[]>(() => getAds());
   const [leads] = useState<ClubLead[]>(() => getClubLeads());
-  const [isLogged, setIsLogged] = useState(localStorage.getItem("feira_admin") === "true");
+  const [isLogged, setIsLogged] = useState(() => readMockAdminSession());
+
+  useEffect(() => {
+    setIsLogged(readMockAdminSession());
+  }, [route]);
 
   function updateAds(nextAds: Ad[]) {
     setAds(nextAds);
@@ -36,7 +41,7 @@ export default function App() {
   }
 
   function logout() {
-    localStorage.removeItem("feira_admin");
+    clearMockAdminSession();
     setIsLogged(false);
     window.location.hash = "#/";
   }
@@ -45,7 +50,7 @@ export default function App() {
   const adMatch = path.match(/^\/ads\/(.+)$/);
 
   let page = <Home ads={ads} />;
-  if (path === "/ads") page = <Ads ads={ads} />;
+  if (path === "/ads" || path === "/categories") page = <Categories ads={ads} />;
   if (adMatch) page = <AdDetails ads={ads} id={decodeURIComponent(adMatch[1])} />;
   if (path === "/stores") page = <Stores ads={ads} />;
   if (path === "/club") page = <Club />;

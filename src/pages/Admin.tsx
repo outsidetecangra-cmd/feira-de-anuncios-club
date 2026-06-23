@@ -1,5 +1,6 @@
 import { Eye, EyeOff, Star, Trash2, Users } from "lucide-react";
 import type { Ad, ClubLead } from "../types";
+import { getMockAdminDisabledMessage, MOCK_ADMIN_ENABLED } from "../utils/mockAdmin";
 
 interface AdminProps {
   ads: Ad[];
@@ -10,6 +11,15 @@ interface AdminProps {
 }
 
 export function Admin({ ads, leads, isLogged, onUpdate, onLogout }: AdminProps) {
+  if (!MOCK_ADMIN_ENABLED) {
+    return (
+      <main className="container-page py-16">
+        <h1 className="text-3xl font-black text-ink">Acesso administrativo</h1>
+        <p className="mt-3 max-w-2xl text-slate-600">{getMockAdminDisabledMessage()}</p>
+      </main>
+    );
+  }
+
   if (!isLogged) {
     return (
       <main className="container-page py-16">

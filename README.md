@@ -15,10 +15,10 @@ MVP de micro marketplace/classificados multi-lojas com clube de associados para 
 - Home comercial e responsiva
 - Lista de anúncios com busca e filtro por categoria
 - Página de detalhes com WhatsApp e compartilhamento
-- Cadastro de anúncio com salvamento em `localStorage`
+- Solicitação de anúncio por WhatsApp
 - Área de lojas participantes
 - Clube de Associados com planos e captura de interessados
-- Login admin mockado
+- Login admin mockado somente para desenvolvimento ou ambiente explicitamente restrito
 - Painel admin para ativar/desativar, destacar, marcar associado e excluir anúncios
 
 ## Rodar localmente
@@ -42,10 +42,35 @@ Os arquivos finais ficam em `dist/`.
 
 ## Acesso admin
 
-- Usuário: `admin`
-- Senha: `admin123`
+- Em desenvolvimento local, o mock usa por padrão:
+  - Usuário: `admin`
+  - Senha: `admin123`
+- Em produção, o painel mockado fica desabilitado por padrão.
+- Se você realmente precisar reativá-lo em um ambiente restrito, defina:
+  - `VITE_ENABLE_MOCK_ADMIN=true`
+  - `VITE_MOCK_ADMIN_USER=...`
+  - `VITE_MOCK_ADMIN_PASSWORD=...`
 
-O login é mockado para o MVP. A estrutura pode ser migrada depois para Firebase Auth, Cloudflare Access ou outro provedor.
+O login continua sendo mockado. Não trate essas credenciais como segredo de produção: variáveis `VITE_*` ficam expostas no bundle do cliente. Para uso real, coloque o painel atrás de Cloudflare Access e migre a autenticação/autorização para backend.
+
+## Segurança aplicada
+
+- Headers de produção em `public/_headers` para Cloudflare Pages com `Content-Security-Policy`, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`, `Cross-Origin-Opener-Policy`, `Cross-Origin-Resource-Policy` e `HSTS`.
+- Sem CORS permissivo por padrão. O projeto é estático e não expõe API pública que justifique `Access-Control-Allow-Origin: *`.
+- Sanitização de dados lidos do `localStorage`, inclusive `ads`, `leads`, telefones, enums e URLs de imagem.
+- Imagens externas limitadas a `https` e aos hosts hoje usados pelo projeto, com `referrerPolicy="no-referrer"` no render.
+- Sessão admin mockada movida para `sessionStorage` com expiração curta, em vez de flag persistente sem validade.
+
+## Limite atual de RLS
+
+Hoje não existe RLS real porque o projeto ainda não usa banco nem backend confiável. Tudo que roda no navegador pode ser alterado pelo próprio cliente.
+
+Para ter RLS de verdade, o caminho correto é:
+
+- migrar anúncios, leads e ações administrativas para backend ou Pages Functions;
+- autenticar usuários com um provedor real;
+- aplicar autorização no servidor;
+- só então ativar políticas de banco, por exemplo em Supabase/Postgres ou outra camada que suporte RLS.
 
 ## Deploy no Cloudflare Pages
 
@@ -59,6 +84,7 @@ O login é mockado para o MVP. A estrutura pode ser migrada depois para Firebase
    - Build output directory: `dist`
    - Root directory: deixe vazio, usando a raiz do repositório
    - Node.js: o arquivo `.node-version` fixa `20.19.0`
+   - O arquivo `public/_headers` será copiado para o build e aplicado pelo Cloudflare Pages aos assets estáticos
 6. Salve e publique.
 
 ## Domínio feiradeanuncios.club com Godaddy + Cloudflare

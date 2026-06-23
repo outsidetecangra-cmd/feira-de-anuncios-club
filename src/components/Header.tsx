@@ -3,7 +3,7 @@ import { useState } from "react";
 
 const links = [
   ["Início", "#/"],
-  ["Categorias", "#/ads"],
+  ["Categorias", "#/categories"],
   ["Lojas", "#/stores"],
   ["Clube de Associados", "#/club"],
   ["Anunciar", "#/create"],

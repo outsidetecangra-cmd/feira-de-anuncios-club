@@ -2,13 +2,18 @@ import { MapPin, MessageCircle } from "lucide-react";
 import type { Ad } from "../types";
 import { whatsappLink } from "../utils/whatsapp";
 import { Badge } from "./Badge";
+import { SafeImage } from "./SafeImage";
 
 export function AdCard({ ad }: { ad: Ad }) {
   return (
     <article className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-soft">
       <a href={`#/ads/${ad.id}`} className="block">
         <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
-          <img className="h-full w-full object-cover" src={ad.image} alt={ad.title} loading="lazy" />
+          <SafeImage
+            className={`h-full w-full ${ad.imageFit === "contain" ? "object-contain" : "object-cover"}`}
+            src={ad.image}
+            alt={ad.title}
+          />
           <div className="absolute left-3 top-3 flex flex-wrap gap-2">
             {ad.badges.map((badge) => <Badge badge={badge} key={badge} />)}
           </div>
@@ -32,7 +37,7 @@ export function AdCard({ ad }: { ad: Ad }) {
           className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-green-600 text-white hover:bg-green-700"
           href={whatsappLink(ad.whatsapp, `Olá, vi o anúncio "${ad.title}" na Feira de Anúncios Club.`)}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
           aria-label="Chamar no WhatsApp"
           title="Chamar no WhatsApp"
         >

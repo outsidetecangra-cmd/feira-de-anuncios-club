@@ -31,18 +31,34 @@ export function Club() {
           <p className="mt-5 text-lg leading-8 text-slate-200">
             Tenha anúncios em destaque, página exclusiva da loja, maior visibilidade,
             selo de associado, divulgação em campanhas locais e prioridade nos destaques.
+            Os valores são informados somente após o cadastro e contato de negociação com o administrador.
           </p>
         </div>
       </section>
       <section className="container-page grid gap-8 py-12 lg:grid-cols-[1.2fr_0.8fr]">
         <div className="grid gap-5 md:grid-cols-3">
-          <PlanCard name="Básico" price="R$ 29" features={["Selo de associado", "Página exclusiva", "Até 5 anúncios"]} />
-          <PlanCard name="Destaque" price="R$ 59" highlighted features={["Anúncios em destaque", "Campanhas locais", "Maior visibilidade"]} />
-          <PlanCard name="Premium" price="R$ 99" features={["Prioridade nos destaques", "Mais anúncios", "Divulgação reforçada"]} />
+          <PlanCard
+            name="Básico"
+            note="Benefícios essenciais para começar no clube."
+            features={["Selo de associado", "Página exclusiva", "Publicação de anúncios"]}
+          />
+          <PlanCard
+            name="Destaque"
+            note="Mais visibilidade para vender com frequência."
+            highlighted
+            features={["Anúncios em destaque", "Campanhas locais", "Maior visibilidade"]}
+          />
+          <PlanCard
+            name="Premium"
+            note="Prioridade e divulgação reforçada para associados."
+            features={["Prioridade nos destaques", "Mais anúncios", "Divulgação reforçada"]}
+          />
         </div>
         <form onSubmit={submit} className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
           <h2 className="text-2xl font-black text-ink">Quero ser associado</h2>
-          <p className="mt-2 text-sm leading-6 text-slate-600">Deixe seus dados e fale com a equipe pelo WhatsApp.</p>
+          <p className="mt-2 text-sm leading-6 text-slate-600">
+            Deixe seus dados e fale com a equipe pelo WhatsApp para receber uma proposta negociada.
+          </p>
           <div className="mt-5 grid gap-3">
             <input className="field" name="name" placeholder="Nome da loja ou responsável" required />
             <input className="field" name="whatsapp" placeholder="WhatsApp" required />

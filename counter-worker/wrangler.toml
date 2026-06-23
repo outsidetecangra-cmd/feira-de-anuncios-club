@@ -1,0 +1,9 @@
+name = "feira-de-anuncios-visits"
+main = "src/index.ts"
+compatibility_date = "2026-06-23"
+
+[[d1_databases]]
+binding = "VISITS_DB"
+database_name = "feira-de-anuncios-visits"
+database_id = "db00bc1c-ec52-431f-a17e-8a8b89932a6e"
+remote = true

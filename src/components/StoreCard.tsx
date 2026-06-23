@@ -1,12 +1,17 @@
 import { MapPin, MessageCircle, ShieldCheck } from "lucide-react";
 import type { Store } from "../types";
 import { whatsappLink } from "../utils/whatsapp";
+import { SafeImage } from "./SafeImage";
 
 export function StoreCard({ store, count = 0 }: { store: Store; count?: number }) {
   return (
     <article className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
       <div className="aspect-[16/9] overflow-hidden bg-slate-100">
-        <img className="h-full w-full object-cover" src={store.image} alt={store.name} loading="lazy" />
+        <SafeImage
+          className={`h-full w-full ${store.imageFit === "contain" ? "object-contain" : "object-cover"}`}
+          src={store.image}
+          alt={store.name}
+        />
       </div>
       <div className="space-y-3 p-4">
         <div className="flex items-start justify-between gap-3">
@@ -23,7 +28,7 @@ export function StoreCard({ store, count = 0 }: { store: Store; count?: number }
         </div>
         <div className="flex items-center justify-between gap-3 pt-2">
           <span className="text-sm font-semibold text-slate-700">{count} anúncio(s)</span>
-          <a className="btn-ghost" href={whatsappLink(store.whatsapp, `Olá, encontrei a ${store.name} na Feira de Anúncios Club.`)} target="_blank" rel="noreferrer">
+          <a className="btn-ghost" href={whatsappLink(store.whatsapp, `Olá, encontrei a ${store.name} na Feira de Anúncios Club.`)} target="_blank" rel="noopener noreferrer">
             <MessageCircle size={18} /> WhatsApp
           </a>
         </div>

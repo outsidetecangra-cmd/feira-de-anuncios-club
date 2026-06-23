@@ -2,6 +2,23 @@ import type { Ad } from "../types";
 
 export const mockAds: Ad[] = [
   {
+    id: "instituto-educacional-recriar",
+    title: "Matrículas abertas — Instituto Educacional Recriar",
+    description: "Escola de Educação Infantil com Berçário, Maternal e Pré-Escola em um ambiente acolhedor, seguro e voltado ao desenvolvimento integral por meio do cuidado, da aprendizagem e das brincadeiras. Mensalidade integral: R$ 710,00.",
+    category: "Outros",
+    price: "Matrícula R$ 250,00",
+    image: "/anuncios/escola/instituto-educacional-recriar.png",
+    imageFit: "contain",
+    advertiser: "Instituto Educacional Recriar",
+    whatsapp: "551144892319",
+    location: "Rua Dr. Epitacio Pessoa 94, Francisco Morato - SP",
+    status: "ativo",
+    badges: ["destaque"],
+    storeId: "instituto-educacional-recriar",
+    type: "loja",
+    createdAt: "2026-06-23T12:00:00.000Z",
+  },
+  {
     id: "pizza-grande-combo",
     title: "Combo pizza grande + refrigerante",
     description: "Pizza grande em sabores selecionados com refrigerante de 2 litros. Entrega no Centro e bairros próximos.",

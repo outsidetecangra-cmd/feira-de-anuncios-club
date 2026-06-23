@@ -1,6 +1,7 @@
 import { MessageCircle, Share2 } from "lucide-react";
 import { AdCard } from "../components/AdCard";
 import { Badge } from "../components/Badge";
+import { SafeImage } from "../components/SafeImage";
 import type { Ad } from "../types";
 import { whatsappLink } from "../utils/whatsapp";
 
@@ -33,7 +34,11 @@ export function AdDetails({ ads, id }: { ads: Ad[]; id: string }) {
     <main className="container-page py-10">
       <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="overflow-hidden rounded-lg border border-slate-200 bg-white">
-          <img className="aspect-[4/3] w-full object-cover" src={ad.image} alt={ad.title} />
+          <SafeImage
+            className={`aspect-[4/3] w-full ${ad.imageFit === "contain" ? "object-contain" : "object-cover"}`}
+            src={ad.image}
+            alt={ad.title}
+          />
         </div>
         <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
           <div className="flex flex-wrap gap-2">
@@ -49,7 +54,7 @@ export function AdDetails({ ads, id }: { ads: Ad[]; id: string }) {
             <p className="mt-2"><strong>Tipo:</strong> {ad.type === "loja" ? "Loja" : "Particular"}</p>
           </div>
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
-            <a className="inline-flex items-center justify-center gap-2 rounded-md bg-green-600 px-5 py-3 text-sm font-bold text-white hover:bg-green-700" href={whatsappLink(ad.whatsapp, `Olá, vi o anúncio "${ad.title}" na Feira de Anúncios Club.`)} target="_blank" rel="noreferrer">
+            <a className="inline-flex items-center justify-center gap-2 rounded-md bg-green-600 px-5 py-3 text-sm font-bold text-white hover:bg-green-700" href={whatsappLink(ad.whatsapp, `Olá, vi o anúncio "${ad.title}" na Feira de Anúncios Club.`)} target="_blank" rel="noopener noreferrer">
               <MessageCircle size={20} /> Chamar no WhatsApp
             </a>
             <button className="btn-ghost" type="button" onClick={() => void share()}>

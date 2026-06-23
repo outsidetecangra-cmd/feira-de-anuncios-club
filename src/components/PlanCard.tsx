@@ -2,16 +2,18 @@ import { CheckCircle2 } from "lucide-react";
 
 interface PlanCardProps {
   name: string;
-  price: string;
+  price?: string;
+  note?: string;
   features: string[];
   highlighted?: boolean;
 }
 
-export function PlanCard({ name, price, features, highlighted }: PlanCardProps) {
+export function PlanCard({ name, price, note, features, highlighted }: PlanCardProps) {
   return (
     <article className={`rounded-lg border p-5 shadow-sm ${highlighted ? "border-sale bg-amber-50" : "border-slate-200 bg-white"}`}>
       <h3 className="text-xl font-black text-ink">{name}</h3>
-      <p className="mt-2 text-3xl font-black text-ink">{price}</p>
+      {price && <p className="mt-2 text-3xl font-black text-ink">{price}</p>}
+      {note && <p className="mt-2 text-sm font-bold leading-6 text-slate-600">{note}</p>}
       <ul className="mt-5 grid gap-3 text-sm text-slate-700">
         {features.map((feature) => (
           <li className="flex gap-2" key={feature}>
